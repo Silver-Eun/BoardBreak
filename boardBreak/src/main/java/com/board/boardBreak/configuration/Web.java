@@ -1,4 +1,4 @@
-package com.board.boardbreak.configuration;
+package com.board.boardBreak.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

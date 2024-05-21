@@ -1,4 +1,4 @@
-package com.board.boardbreak;
+package com.board.boardBreak;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
