@@ -12,7 +12,6 @@ public class BoardForm {
     private String author;
 
     public Board toEntity() {
-
         return new Board(null, title, content, author);
     }
 }

@@ -1,7 +1,7 @@
 package com.board.boardBreak.repository;
 
 import com.board.boardBreak.entity.Board;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BoardRepository extends CrudRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 }

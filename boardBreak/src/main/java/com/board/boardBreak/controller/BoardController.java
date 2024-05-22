@@ -17,7 +17,7 @@ public class BoardController {
 
     @GetMapping("/board/new")
     public String newBoardForm() {
-        return "board/new";
+        return "new";
     }
 
     @PostMapping("/board/create")
@@ -30,6 +30,6 @@ public class BoardController {
         // 2. Repository에서 Entity를 DB 안에 저장
         Board saved = boardRepository.save(board);
         log.info("saved -> " + saved.toString());
-        return "home";
+        return "redirect:/home";
     }
 }
