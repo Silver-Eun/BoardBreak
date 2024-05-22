@@ -1,33 +1,27 @@
 package com.board.boardBreak.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
-@Entity
+@Entity // DB가 해당 객체를 인식
+@AllArgsConstructor // 생성자 대체
+@ToString // toString 대체
 public class Board {
     @Id // 대표값
-    @GeneratedValue // 1, 2, 3...자동 생성 어노테이션
+    // 1, 2, 3...자동 생성 어노테이션
+    // MySQL은 (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private String title;
     @Column
     private String content;
+    @Column
+    private String author;
 
-    public Board(Long id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
+    public Board() {
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
     }
 }

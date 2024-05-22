@@ -1,11 +1,35 @@
 package com.board.boardBreak.controller;
 
+import com.board.boardBreak.dto.BoardForm;
+import com.board.boardBreak.entity.Board;
 import com.board.boardBreak.repository.BoardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@Slf4j
 public class BoardController {
     @Autowired
     private BoardRepository boardRepository;
+
+    @GetMapping("/board/new")
+    public String newBoardForm() {
+        return "board/new";
+    }
+
+    @PostMapping("/board/create")
+    public String createBoard(BoardForm form) {
+        log.info(form.toString());
+
+        // 1. DTO를 변환 : Entity
+        Board board = form.toEntity();
+        log.info("Entity -> " + board.toString());
+        // 2. Repository에서 Entity를 DB 안에 저장
+        Board saved = boardRepository.save(board);
+        log.info("saved -> " + saved.toString());
+        return "home";
+    }
 }

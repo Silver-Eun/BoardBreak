@@ -13,7 +13,7 @@
 <form class="container" action="/board/create" method="post">
     <div class="mb-3">
         <label class="form-label">작성자</label>
-        <input type="text" class="form-control" name="author" value="익명">
+        <input type="text" class="form-control" name="author">
     </div>
     <div class="mb-3">
         <label class="form-label">제목</label>
@@ -23,7 +23,7 @@
         <label class="form-label">내용</label>
         <textarea class="form-control" rows="3" name="content"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">글쓰기</button>
+    <button type="submit" class="btn btn-primary">제출</button>
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
