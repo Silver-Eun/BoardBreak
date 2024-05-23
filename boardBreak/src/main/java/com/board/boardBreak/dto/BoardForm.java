@@ -13,10 +13,9 @@ public class BoardForm {
     private String title;
     private String content;
     private String author;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date created_at;
 
     public Board toEntity() {
-        return new Board(null, title, content, author, created_at);
+
+        return new Board(null, title, content, author, null);
     }
 }
