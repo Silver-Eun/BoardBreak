@@ -7,14 +7,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
 public class BoardController {
+
     @Autowired
     private BoardRepository boardRepository;
-
+    // 게시글 쓰기
     @GetMapping("/board/new")
     public String newBoardForm() {
         return "new";
@@ -30,6 +33,13 @@ public class BoardController {
         // 2. Repository에서 Entity를 DB 안에 저장
         Board saved = boardRepository.save(board);
         log.info("saved -> " + saved.toString());
+        return "redirect:/home";
+    }
+
+    // 게시글 삭제하기
+    @GetMapping("/board/delete/{id}")
+    public String deleteBoard(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        boardRepository.deleteById(id);
         return "redirect:/home";
     }
 }

@@ -21,9 +21,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">게시판</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -58,6 +55,7 @@
                         <th>내용</th>
                         <th>작성자</th>
                         <th>작성일</th>
+                        <th>관리</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -67,6 +65,7 @@
                             <td>${board.content}</td>
                             <td>${board.author}</td>
                             <td><fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            <td><button><a href="${pageContext.request.contextPath}/board/delete/${board.id}" class="btn btn-sm">Delete</a></button></td>
                         </tr>
                     </c:forEach>
                     </tbody>
