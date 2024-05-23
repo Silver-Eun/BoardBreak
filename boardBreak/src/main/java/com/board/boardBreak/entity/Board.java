@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Entity // DB가 해당 객체를 인식
 @AllArgsConstructor // 필드 생성자 대체
@@ -23,6 +26,9 @@ public class Board {
     private String content;
     @Column
     private String author;
+    @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date created_at;
 
     // Getter 및 Setter 메서드 추가
     public Long getId() {
@@ -57,4 +63,11 @@ public class Board {
         this.author = author;
     }
 
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
 }
