@@ -3,9 +3,6 @@ package com.board.boardBreak.dto;
 import com.board.boardBreak.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 @AllArgsConstructor // 생성자 대체
 @ToString // toString 대체
