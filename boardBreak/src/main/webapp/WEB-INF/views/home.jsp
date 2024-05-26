@@ -45,6 +45,11 @@
             </div>
         </div>
     </nav>
+    <hr>
+    <c:if test="${not empty sessionScope.loginID}">
+        => ${sessionScope.loginName}님 로그인중<br>
+    </c:if>
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -55,7 +60,9 @@
                         <th>내용</th>
                         <th>작성자</th>
                         <th>작성일</th>
-                        <th>관리</th>
+                        <c:if test="${sessionScope.loginID=='admin'}">
+                            <th>관리</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tbody>
@@ -65,7 +72,9 @@
                             <td>${board.content}</td>
                             <td>${board.author}</td>
                             <td><fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            <td><button><a href="${pageContext.request.contextPath}/board/delete/${board.id}" class="btn btn-sm">Delete</a></button></td>
+                            <c:if test="${sessionScope.loginID=='admin'}">
+                                <td><button><a href="${pageContext.request.contextPath}/board/delete/${board.id}" class="btn btn-sm">Delete</a></button></td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -74,7 +83,10 @@
         </div>
     </div>
     <button><a href="board/new">글쓰기</a></button>
-    <button><a href="member/new">회원가입</a></button>
+    <c:if test="${empty sessionScope.loginID}">
+        <button><a href="member/new">회원가입</a></button>
+        <button><a href="loginForm">로그인</a></button>
+    </c:if>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
