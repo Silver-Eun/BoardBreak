@@ -46,7 +46,6 @@ public class MemberController {
         return "/login";
     }
 
-    // => Login 처리 : Post
     @PostMapping(value="/login/new")
     public String login(HttpSession session, Member member) {
         // ** 로그인 Service 처리
@@ -64,5 +63,13 @@ public class MemberController {
             uri = "/login";
         }
         return uri;
+    }
+
+    // 로그아웃
+    @GetMapping(value="/logout")
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+        return "redirect:/home";
     }
 }

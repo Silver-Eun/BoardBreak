@@ -83,6 +83,9 @@
         </div>
     </div>
     <button><a href="board/new">글쓰기</a></button>
+    <c:if test="${not empty sessionScope.loginID}">
+        <button><a href="logout">로그아웃</a></button>
+    </c:if>
     <c:if test="${empty sessionScope.loginID}">
         <button><a href="member/new">회원가입</a></button>
         <button><a href="loginForm">로그인</a></button>
