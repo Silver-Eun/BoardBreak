@@ -53,7 +53,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">비밀번호</label>
-            <input type="text" class="form-control" name="password">
+            <input type="password" class="form-control" name="password">
         </div>
         <div class="mb-3">
             <label class="form-label">이름</label>

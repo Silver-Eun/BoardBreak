@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -49,7 +50,12 @@
     <form class="container" action="/board/create" method="post">
         <div class="mb-3">
             <label class="form-label">작성자</label>
-            <input type="text" class="form-control" name="author" value="익명">
+            <c:if test="${empty sessionScope.loginID}">
+                <input type="text" class="form-control" name="author" value="익명">
+            </c:if>
+            <c:if test="${not empty sessionScope.loginID}">
+                <input type="text" class="form-control" name="author" value="${sessionScope.loginID}">
+            </c:if>
         </div>
         <div class="mb-3">
             <label class="form-label">제목</label>
