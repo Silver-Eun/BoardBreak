@@ -9,7 +9,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BoardBreak</title>
+    <link rel="stylesheet" type="text/css" href="/resources/home.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<%--    <link rel="stylesheet" type="text/css" href="/WEB-INF/views/home.css" />--%>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -41,16 +43,21 @@
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">검색</button>
+                    <div class="loginState">
+                        <c:if test="${not empty sessionScope.loginID}">
+                            ${sessionScope.loginName}님 로그인중<br>
+                        </c:if>
+                    </div>
                 </form>
             </div>
         </div>
     </nav>
     <hr>
-    <c:if test="${not empty sessionScope.loginID}">
-        => ${sessionScope.loginName}님 로그인중<br>
-    </c:if>
+<%--    <c:if test="${not empty sessionScope.loginID}">--%>
+<%--        => ${sessionScope.loginName}님 로그인중<br>--%>
+<%--    </c:if>--%>
     <hr>
-    <div class="container">
+    <div>
         <div class="row">
             <div class="col">
                 <table class="table table-hover">
@@ -72,7 +79,7 @@
                             <td>${board.content}</td>
                             <td>${board.author}</td>
                             <td><fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            <c:if test="${sessionScope.loginID=='admin'}">
+                            <c:if test="${sessionScope.loginID=='admin'} || ${sessionScope.loginID} == ${board.author}">
                                 <td><button><a href="${pageContext.request.contextPath}/board/delete/${board.id}" class="btn btn-sm">Delete</a></button></td>
                             </c:if>
                         </tr>
