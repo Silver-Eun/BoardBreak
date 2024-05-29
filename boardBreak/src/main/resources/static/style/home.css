@@ -1,0 +1,17 @@
+.btn {
+    white-space: nowrap;
+}
+
+.container, .row, .col {
+
+    text-align: center;
+}
+
+th, td {
+    width: 25%;
+}
+
+button a {
+    text-decoration: none;
+    color: black;
+}
