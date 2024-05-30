@@ -4,12 +4,17 @@ import io.cloudtype.Demo.dto.MemberForm;
 import io.cloudtype.Demo.entity.Member;
 import io.cloudtype.Demo.repository.MemberRepository;
 import io.cloudtype.Demo.service.MemberService;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 @Slf4j
@@ -46,7 +51,7 @@ public class MemberController {
     }
 
     @PostMapping(value="/login/new")
-    public String login(HttpSession session, Member member) {
+    public String login(HttpSession session, Member member, HttpServletResponse response) throws IOException {
         // ** 로그인 Service 처리
         // 1. 요청분석
         String password = member.getPassword();
@@ -59,7 +64,11 @@ public class MemberController {
             session.setAttribute("loginID", member.getId());
             session.setAttribute("loginName", member.getName());
         } else {
-            uri = "/login";
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script> alert('아이디 또는 비밀번호가 틀립니다.');");
+            out.println("history.go(-1); </script>");
+            out.close();
         }
         return uri;
     }

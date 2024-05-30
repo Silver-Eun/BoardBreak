@@ -19,7 +19,8 @@
 <!--            aria-label="Toggle navigation">-->
 <!--      <span class="navbar-toggler-icon"></span>-->
 <!--    </button>-->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+    <div id="navbarSupportedContent">
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">검색</button>
@@ -63,13 +64,13 @@
   </div>
 </div>
 <button><a th:href="@{/board/new}">글쓰기</a></button>
-<div th:if="${session.loginID != null}">
+<span th:if="${session.loginID != null}">
   <button><a th:href="@{/logout}">로그아웃</a></button>
-</div>
-<div th:if="${session.loginID == null}">
+</span>
+<span th:if="${session.loginID == null}">
   <button><a th:href="@{/member/new}">회원가입</a></button>
   <button><a th:href="@{/loginForm}">로그인</a></button>
-</div>
+</span>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
