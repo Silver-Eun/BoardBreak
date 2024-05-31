@@ -14,12 +14,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">게시판</a>
-        <!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
-        <!--            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"-->
-        <!--            aria-label="Toggle navigation">-->
-        <!--      <span class="navbar-toggler-icon"></span>-->
-        <!--    </button>-->
-        <!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
         <div id="navbarSupportedContent">
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -33,31 +27,15 @@
     => <span th:text="${session.loginName}"></span>님 로그인중<br>
 </div>
 <hr>
-<div class="boardTable">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-        <tr>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-            <th th:if="${session.loginID == 'admin'}">관리</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="board : ${boards}">
-            <td>
-                <a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
-            </td>
-            <td th:text="${board.author}"></td>
-            <td th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">
-                <button>
-                    <a th:href="@{/board/delete/{id}(id=${board.id})}" class="btn btn-sm">Delete</a>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div class="detailContainer">
+    <div class="detailHead">
+        <h2 th:text="${board.title}"></h2>
+        <p>
+            <span th:text="${board.author}"></span>
+            <span th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm:ss')}"></span>
+        </p>
+    </div>
+    <div class="detailContent" th:text="${board.content}"></div>
 </div>
 <div class="buttonContainer">
     <button><a th:href="@{/board/new}">글쓰기</a></button>

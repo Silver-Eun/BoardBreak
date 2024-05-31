@@ -1,3 +1,5 @@
+/* 공통 */
+
 .btn {
     white-space: nowrap;
 }
@@ -8,10 +10,41 @@
 }
 
 th, td {
-    width: 25%;
+    width: 34%;
 }
 
-button a {
+button a, td a {
     text-decoration: none;
     color: black;
+}
+
+/* 홈페이지 */
+.boardTable {
+    width: 80%;
+    margin-left: 10%;
+}
+
+/* 게시글 상세페이지 */
+.detailContainer {
+    width: 80%;
+    height: 100%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-left: 10%;
+}
+
+.detailHead {
+    border-bottom: 1px solid gray;
+    padding: 3%;
+}
+
+.detailContent {
+    padding: 3%;
+    min-height: 400px;
+}
+
+/* 하단 버튼들 */
+.buttonContainer {
+    margin-left: 10%;
 }

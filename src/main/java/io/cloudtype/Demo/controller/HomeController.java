@@ -12,6 +12,7 @@ public class HomeController {
 
     @Autowired
     public void setBoardService(BoardService boardService) {
+
         this.boardService = boardService;
     }
 
