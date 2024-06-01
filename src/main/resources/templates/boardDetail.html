@@ -48,6 +48,11 @@
 </div>
 <div class="buttonContainer">
     <button><a th:href="@{/board/new}">글쓰기</a></button>
+    <span th:if="${session.loginID == 'admin' or session.loginID == board.author}">
+        <button>
+            <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>
+        </button>
+    </span>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -55,7 +55,7 @@
             <td th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm')}"></td>
             <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">
                 <button>
-                    <a th:href="@{/board/delete/{id}(id=${board.id})}" class="btn btn-sm">Delete</a>
+                    <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>
                 </button>
             </td>
         </tr>
