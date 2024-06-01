@@ -4,8 +4,7 @@
     white-space: nowrap;
 }
 
-.container, .row, .col {
-
+.boardTable {
     text-align: center;
 }
 
@@ -16,6 +15,10 @@ th, td {
 button a, td a {
     text-decoration: none;
     color: black;
+}
+
+.loginButton, .logoutButton, .joinButton {
+    margin-left: 5px;
 }
 
 /* 홈페이지 */
@@ -46,5 +49,12 @@ button a, td a {
 
 /* 하단 버튼들 */
 .buttonContainer {
-    margin-left: 10%;
+    margin-right: 10%;
+    text-align: right;
+}
+
+/* 글쓰기 페이지 */
+.formHead {
+    border-bottom: 1px solid gray;
+    padding: 3%;
 }
