@@ -7,6 +7,7 @@ import io.cloudtype.Demo.service.MemberService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,20 @@ import java.io.PrintWriter;
 @Controller
 @Slf4j
 public class MemberController {
+    private MemberRepository memberRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
+    public void setMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    private MemberService memberService;
+
     @Autowired
-    private MemberService service;
+    public void setMemberService(MemberService memberService) {
+
+        this.memberService = memberService;
+    }
 
     // 회원가입
     @GetMapping("/member/new")
@@ -37,28 +47,25 @@ public class MemberController {
 
         // 1. DTO를 변환 : Entity
         Member member = form.toEntity();
-        log.info("Entity -> " + member.toString());
         // 2. Repository에서 Entity를 DB 안에 저장
-        Member saved = memberRepository.save(member);
-        log.info("saved -> " + saved.toString());
+        memberRepository.save(member);
         return "redirect:/";
     }
 
     // 로그인
-    @GetMapping(value="/loginForm")
+    @GetMapping(value = "/loginForm")
     public String loginForm() {
         return "login";
     }
 
-    @PostMapping(value="/login/new")
+    @PostMapping(value = "/login/new")
     public String login(HttpSession session, Member member, HttpServletResponse response) throws IOException {
         // ** 로그인 Service 처리
         // 1. 요청분석
         String password = member.getPassword();
-        String uri = "redirect:/";
 
         // 2. 서비스 처리
-        member = service.selectOne(member.getId());
+        member = memberService.selectOne(member.getId());
 
         if (member != null) {
             session.setAttribute("loginID", member.getId());
@@ -70,11 +77,11 @@ public class MemberController {
             out.println("history.go(-1); </script>");
             out.close();
         }
-        return uri;
+        return "redirect:/";
     }
 
     // 로그아웃
-    @GetMapping(value="/logout")
+    @GetMapping(value = "/logout")
     public String logout(HttpSession session) {
 
         session.invalidate();

@@ -11,20 +11,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @Controller
 @Slf4j
 public class BoardController {
+    private BoardRepository boardRepository;
 
     @Autowired
-    private BoardRepository boardRepository;
-    @Autowired
+    public void setBoardRepository(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
+
     private BoardService boardService;
+
+    @Autowired
+    public void setBoardService(BoardService boardService) {
+        this.boardService = boardService;
+    }
 
     // 게시글 쓰기
     @GetMapping("/board/new")
@@ -38,16 +41,14 @@ public class BoardController {
 
         // 1. DTO를 변환 : Entity
         Board board = form.toEntity();
-        log.info("Entity -> " + board.toString());
         // 2. Repository에서 Entity를 DB 안에 저장
-        Board saved = boardRepository.save(board);
-        log.info("saved -> " + saved.toString());
+        boardRepository.save(board);
         return "redirect:/";
     }
 
     // 게시글 삭제하기
     @GetMapping("/board/delete/{id}")
-    public String deleteBoard(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deleteBoard(@PathVariable Long id) {
         boardRepository.deleteById(id);
         return "redirect:/";
     }
