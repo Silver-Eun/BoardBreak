@@ -43,7 +43,7 @@
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th th:if="${session.loginID == 'admin'}">관리</th>
+<!--            <th th:if="${session.loginID == 'admin'}">관리</th>-->
         </tr>
         </thead>
         <tbody>
@@ -53,11 +53,11 @@
             </td>
             <td th:text="${board.author}"></td>
             <td th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">
-                <button>
-                    <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>
-                </button>
-            </td>
+<!--            <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">-->
+<!--                <button>-->
+<!--                    <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>-->
+<!--                </button>-->
+<!--            </td>-->
         </tr>
         </tbody>
     </table>

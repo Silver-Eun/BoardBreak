@@ -48,9 +48,12 @@
 </div>
 <div class="buttonContainer">
     <button><a th:href="@{/board/new}">글쓰기</a></button>
-    <span th:if="${session.loginID == 'admin' or session.loginID == board.author}">
+    <span th:if="${session.loginID == 'admin' or session.loginID == board.author or (session.loginID == '' and board.author == '익명')}">
         <button>
             <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>
+        </button>
+        <button>
+            <a th:href="@{/board/edit/{id}(id=${board.id})}">수정</a>
         </button>
     </span>
     <button><a th:href="@{/}">글목록</a></button>
