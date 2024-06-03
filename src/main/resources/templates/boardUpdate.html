@@ -16,16 +16,23 @@
         <div id="navbarSupportedContent">
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">검색</button>
+                <button class="btn btn-outline-success searchButton" type="submit">검색</button>
+                <span th:if="${session.loginID != null}">
+                    <span th:text="${session.loginName}"></span>님 로그인중
+                </span>
+                <span th:if="${session.loginID != null}">
+                    <button class="btn logoutButton"><a th:href="@{/logout}">로그아웃</a></button>
+                </span>
+                <span th:if="${session.loginID == null}">
+                    <button class="btn joinButton"><a th:href="@{/member/new}">회원가입</a></button>
+                </span>
+                <span th:if="${session.loginID == null}">
+                    <button class="btn loginButton"><a th:href="@{/loginForm}">로그인</a></button>
+                </span>
             </form>
         </div>
     </div>
 </nav>
-<hr>
-<div th:if="${session.loginID != null}">
-    => <span th:text="${session.loginName}"></span>님 로그인중<br>
-</div>
-<hr>
 <form class="formContainer" th:action="@{/board/update/{id}(id=${board.id})}" method="post">
     <div class="detailContainer">
         <div class="formHead">
@@ -39,14 +46,16 @@
                 <div class="col">
                     <label class="form-label">작성자
                         <input type="text" class="form-control" width="80%" name="author"
-                               th:value="${session.loginID != null ? (session.loginID == 'admin' ? '익명' : session.loginID) : '익명'}">
+                               th:value="${session.loginID != null ? (session.loginID == 'admin' ? '익명' : session.loginID) : '익명'}"
+                               readonly>
                     </label>
                 </div>
             </div>
         </div>
         <div class="detailContent">
             <label class="form-label">내용
-                <textarea class="form-control" rows="13" name="content" style="width: 300%;">[[${board.content}]]</textarea></label>
+                <textarea class="form-control" rows="13" name="content"
+                          style="width: 300%;">[[${board.content}]]</textarea></label>
         </div>
     </div>
     <div class="buttonContainer">
