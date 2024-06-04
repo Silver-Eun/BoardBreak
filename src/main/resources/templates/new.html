@@ -35,21 +35,20 @@
             <div class="row">
                 <div class="col">
                     <span>
-                        <label class="form-label">제목
-                        <input type="text" class="form-control" name="title"></label>
+                        <label class="form-label" for="postTitle">제목</label>
+                        <input type="text" class="form-control" name="title" id="postTitle">
                     </span>
                 </div>
                 <div class="col">
-                    <label class="form-label">작성자
-                        <input type="text" class="form-control" width="80%" name="author"
+                    <label class="form-label" for="postAuthor">작성자</label>
+                        <input type="text" class="form-control" width="80%" name="author" id="postAuthor"
                                th:value="${session.loginID} ? ${session.loginID} : '익명'">
-                    </label>
                 </div>
             </div>
         </div>
         <div class="detailContent">
-            <label class="form-label">내용
-                <textarea class="form-control" rows="13" name="content" style="width: 300%;"></textarea></label>
+            <label class="form-label" for="postContent">내용</label>
+                <textarea class="form-control" rows="13" name="content" id="postContent"></textarea>
         </div>
     </div>
     <div class="buttonContainer">

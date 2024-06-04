@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 @Slf4j
@@ -35,7 +38,15 @@ public class BoardController {
 
     // 게시글 쓰기
     @GetMapping("/board/new")
-    public String newBoardForm() {
+    public String newBoardForm(HttpSession session, HttpServletResponse response) throws IOException {
+        // 로그인해야 게시글 작성 가능
+        if(session == null) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script> alert('로그인해주세요.');");
+            out.println("history.go(-1); </script>");
+            out.close();
+        }
         return "new";
     }
 

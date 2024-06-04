@@ -21,4 +21,10 @@ public class HomeController {
         model.addAttribute("boards", boardService.findAll());
         return "index";
     }
+
+    @GetMapping("/search")
+    public String search() {
+
+        return "index";
+    }
 }
