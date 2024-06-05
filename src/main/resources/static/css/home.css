@@ -1,4 +1,4 @@
-/* 공통 */
+/* ------------공통------------ */
 
 .btn {
     white-space: nowrap;
@@ -34,13 +34,13 @@ div a, button a, td a {
     margin-left: 5px;
 }
 
-/* 홈페이지 */
+/* ------------홈페이지------------ */
 .boardTable {
     width: 80%;
     margin-left: 10%;
 }
 
-/* 게시글 상세페이지 */
+/* ------------게시글 상세페이지------------ */
 .detailContainer {
     width: 80%;
     height: 100%;
@@ -59,6 +59,9 @@ div a, button a, td a {
 .detailContent {
     padding: 3%;
     min-height: 400px;
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* 하단 버튼들 */
@@ -85,13 +88,13 @@ div a, button a, td a {
     text-align: right;
 }
 
-/* 글쓰기 페이지 */
+/* ------------글쓰기 페이지------------ */
 .formHead {
     border-bottom: 1px solid gray;
     padding: 3%;
 }
 
-/* 로그인 페이지 */
+/* ------------로그인 페이지------------ */
 .loginContainer {
     width: 40%;
     margin-left: 30%;
