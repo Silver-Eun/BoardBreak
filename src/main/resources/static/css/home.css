@@ -1,13 +1,10 @@
 /* ------------공통------------ */
-
-.btn {
+* {
     white-space: nowrap;
-    border: 0 !important;
 }
 
-.boardTable {
-    text-align: center;
-    margin-top: 3%;
+.btn {
+    border: 0 !important;
 }
 
 th, td {
@@ -37,7 +34,9 @@ div a, button a, td a {
 /* ------------홈페이지------------ */
 .boardTable {
     width: 80%;
-    margin-left: 10%;
+    text-align: center;
+    margin: 3% auto 0;
+
 }
 
 /* ------------게시글 상세페이지------------ */
@@ -75,10 +74,6 @@ div a, button a, td a {
     width: 100%;
 }
 
-.secondButton {
-    white-space: nowrap;
-}
-
 .thirdButton {
     text-align: right;
 }
@@ -96,12 +91,11 @@ div a, button a, td a {
 
 /* ------------로그인 페이지------------ */
 .loginContainer {
-    width: 40%;
-    margin-left: 30%;
+    width: 350px;
     border: 1px solid gray;
     border-radius: 10px;
     padding: 3%;
-    margin-top: 3%;
+    margin: 3% auto;
 }
 
 .loginButtonContainer {
