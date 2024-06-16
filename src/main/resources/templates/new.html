@@ -10,25 +10,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a href="/"><h3>게시판</h3></a>
-        <div class="navbarContent">
-            <span th:if="${session.loginID != null}">
-                <span th:text="${session.loginName}"></span>님 로그인중
-            </span>
-            <span th:if="${session.loginID != null}">
-                <button class="btn logoutButton"><a th:href="@{/logout}">로그아웃</a></button>
-            </span>
-            <span th:if="${session.loginID == null}">
-                <button class="btn joinButton"><a th:href="@{/member/new}">회원가입</a></button>
-            </span>
-            <span th:if="${session.loginID == null}">
-                <button class="btn loginButton"><a th:href="@{/loginForm}">로그인</a></button>
-            </span>
-        </div>
-    </div>
-</nav>
+<div th:replace="~{/index :: header}"></div>
 <form class="formContainer" th:action="@{/board/create}" method="post">
     <div class="detailContainer">
         <div class="formHead">

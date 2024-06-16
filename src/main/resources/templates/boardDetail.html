@@ -11,25 +11,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a href="/"><h3>게시판</h3></a>
-        <div class="navbarContent">
-            <span th:if="${session.loginID != null}">
-                <span th:text="${session.loginName}"></span>님 로그인중
-            </span>
-            <span th:if="${session.loginID != null}">
-                <button class="btn logoutButton"><a th:href="@{/logout}">로그아웃</a></button>
-            </span>
-            <span th:if="${session.loginID == null}">
-                <button class="btn joinButton"><a th:href="@{/member/new}">회원가입</a></button>
-            </span>
-            <span th:if="${session.loginID == null}">
-                <button class="btn loginButton"><a th:href="@{/loginForm}">로그인</a></button>
-            </span>
-        </div>
-    </div>
-</nav>
+<div th:replace="~{/index :: header}"></div>
 <div class="detailContainer">
     <div class="detailHead">
         <h2 th:text="${board.title}"></h2>
@@ -51,6 +33,9 @@
         </button>
     </span>
     <button><a th:href="@{/}">글목록</a></button>
+</div>
+<div class="commentContainer">
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
