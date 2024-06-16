@@ -33,21 +33,20 @@ div a, button a, td a {
 
 /* ------------홈페이지------------ */
 .boardTable {
-    width: 80%;
+    width: 100%;
+    max-width: 600px;
     text-align: center;
-    margin: 3% auto 0;
-
+    margin: 1% auto;
 }
 
 /* ------------게시글 상세페이지------------ */
 .detailContainer {
-    width: 80%;
+    width: 100%;
+    max-width: 600px;
     height: 100%;
     border: 1px solid gray;
     border-radius: 10px;
-    margin-bottom: 10px;
-    margin-top: 3%;
-    margin-left: 10%;
+    margin: 1% auto;
 }
 
 .detailHead {
@@ -63,23 +62,24 @@ div a, button a, td a {
     overflow-wrap: break-word;
 }
 
-/* 하단 버튼들 */
+/* ------------홈페이지 하단 검색바, 버튼들------------ */
 .SearchContainer {
-    width: 80%;
-    display: flex;
-    margin-left: 10%;
-}
-
-.firstButton, .secondButton, .thirdButton {
     width: 100%;
+    max-width: 600px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
 }
 
 .thirdButton {
     text-align: right;
 }
 
+/* ------------페이지 하단 버튼들------------ */
 .buttonContainer {
-    margin-right: 10%;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
     text-align: right;
 }
 
@@ -91,7 +91,8 @@ div a, button a, td a {
 
 /* ------------로그인 페이지------------ */
 .loginContainer {
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     border: 1px solid gray;
     border-radius: 10px;
     padding: 3%;
@@ -100,5 +101,23 @@ div a, button a, td a {
 
 .loginButtonContainer {
     width: 100%;
+    text-align: right;
+}
+
+/* ------------댓글영역------------ */
+.commentContainer {
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin: 1% auto;
+}
+
+.commentInputAuthor {
+    align-content: center;
+}
+
+.commentInputBtn {
     text-align: right;
 }
