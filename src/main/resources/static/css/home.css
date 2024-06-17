@@ -7,6 +7,10 @@
     border: 0 !important;
 }
 
+button {
+    border-radius: 5px !important;
+}
+
 th, td {
     width: 25%;
 }
@@ -107,6 +111,7 @@ div a, button a, td a {
 /* ------------댓글영역------------ */
 .commentContainer {
     width: 100%;
+    padding: 1%;
     max-width: 600px;
     height: 100%;
     border: 1px solid gray;
@@ -115,9 +120,12 @@ div a, button a, td a {
 }
 
 .commentInputAuthor {
-    align-content: center;
+    height: 40px;
+    align-content: end;
+
 }
 
 .commentInputBtn {
     text-align: right;
+    margin: 5px 0;
 }
