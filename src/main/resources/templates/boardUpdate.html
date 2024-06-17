@@ -10,7 +10,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="~{/index :: header}"></div>
+<div th:replace="~{index :: header}"></div>
 <form class="formContainer" th:action="@{/board/update/{id}(id=${board.id})}" method="post">
     <div class="detailContainer">
         <div class="formHead">
