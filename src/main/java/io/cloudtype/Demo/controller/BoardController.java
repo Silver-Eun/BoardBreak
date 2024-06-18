@@ -70,6 +70,7 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detailBoard(@PathVariable Long id, Model model) {
         model.addAttribute("board", boardService.selectOne(id));
+
         return "boardDetail";
     }
 

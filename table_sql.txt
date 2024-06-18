@@ -15,8 +15,8 @@ CREATE TABLE member (
 
 CREATE TABLE comment (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
-    post_id INT NOT NULL, 
-    user_id INT NOT NULL,  
+    boardId INT NOT NULL, 
+    memberId varchar(100) NOT NULL,  
     content TEXT NOT NULL,                     
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

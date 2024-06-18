@@ -9,11 +9,16 @@ import lombok.ToString;
 @ToString // toString 대체
 @Data // getter, setter, ToString 대체
 public class CommentForm {
-    private int post_id;
-    private int user_id;
+    private Long boardId;
+    private String memberId;
     private String content;
 
-    public Comment toEntity() {
-        return new Comment(null, post_id, user_id, content, null);
+    public static CommentForm createCommentDto(Comment comment) {
+        return new CommentForm(
+                comment.getBoard().getId(),
+                comment.getMember().getId(),
+                comment.getContent()
+        );
     }
+
 }

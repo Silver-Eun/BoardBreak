@@ -18,10 +18,12 @@ public class Comment {
     // MySQL은 (strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private int post_id;
-    @Column
-    private int user_id;
+    @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Board에 연관
+    @JoinColumn(name = "boardId")
+    private Board board;
+    @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Member에 연관
+    @JoinColumn(name = "memberId")
+    private Member member;
     @Column
     private String content;
     @Column
