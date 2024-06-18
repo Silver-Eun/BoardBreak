@@ -1,6 +1,8 @@
 package io.cloudtype.Demo.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,19 +12,18 @@ import java.util.Date;
 @AllArgsConstructor // 필드 생성자 대체
 @NoArgsConstructor // 기본 생성자 대체
 @Data // getter, setter, ToString 대체
-public class Board {
+public class Comment {
     @Id // 대표값
     // 1, 2, 3...자동 생성 어노테이션
     // MySQL은 (strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
-    private String title;
+    private int post_id;
+    @Column
+    private int user_id;
     @Column
     private String content;
-    @Column
-    private String author;
     @Column
     //  @Column(updatable = false) 해당 필드가 처음 삽입된 이후로 업데이트되지 않도록
     //  @Temporal(TemporalType.TIMESTAMP)

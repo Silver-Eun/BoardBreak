@@ -39,9 +39,10 @@
         <div class="col commentInputAuthor">
             <span>[[${session.loginID} ? ${session.loginID} : 익명]]</span>
         </div>
+        <input type="hidden" th:value="${board.id}">
         <div class="commentInputArea">
             <label class="form-label" for="postContent"></label>
-            <textarea class="form-control" rows="3" name="content" id="postContent"></textarea>
+            <textarea class="form-control" rows="4" name="content" id="postContent"></textarea>
         </div>
         <div class="commentInputBtn">
             <button type="button">댓글 등록</button>

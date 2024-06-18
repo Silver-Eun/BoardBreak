@@ -120,9 +120,8 @@ div a, button a, td a {
 }
 
 .commentInputAuthor {
-    height: 40px;
     align-content: end;
-
+    margin-bottom: -20px;
 }
 
 .commentInputBtn {
