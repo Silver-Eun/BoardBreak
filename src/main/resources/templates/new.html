@@ -24,7 +24,7 @@
                 <div class="col">
                     <label class="form-label" for="postAuthor">작성자</label>
                         <input type="text" class="form-control" width="80%" name="author" id="postAuthor"
-                               th:value="${session.loginID} ? ${session.loginID} : '익명'">
+                               th:value="${session.loginID} ? ${session.loginID} : '익명'" readonly>
                 </div>
             </div>
         </div>
