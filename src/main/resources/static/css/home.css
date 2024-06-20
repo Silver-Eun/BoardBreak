@@ -92,6 +92,11 @@ div a, button a, td a {
     padding: 3%;
 }
 
+.newContent {
+    padding: 3%;
+    min-height: 400px;
+}
+
 /* ------------로그인 페이지------------ */
 .loginContainer {
     width: 100%;
