@@ -1,5 +1,6 @@
 package io.cloudtype.Demo.entity;
 
+import io.cloudtype.Demo.dto.CommentForm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,8 @@ public class Comment {
     @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Board에 연관
     @JoinColumn(name = "boardId")
     private Board board;
-    @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Member에 연관
-    @JoinColumn(name = "memberId")
-    private Member member;
+    @Column
+    private String memberId;
     @Column
     private String content;
     @Column
@@ -39,5 +39,25 @@ public class Comment {
     //  JPA 엔티티가 영속성 컨텍스트에 처음으로 저장되기 전에 호출될 메서드에 적용
     protected void onCreate() {
         this.created_at = new Date();
+    }
+
+    public static Comment createComment(CommentForm commentForm, Board board) {
+        // 예외처리
+        if(commentForm.getId() != null)
+            throw new IllegalStateException("댓글 생성 실패! 댓글의 id가 있어야 합니다.");
+        if(commentForm.getBoardId() != board.getId())
+            throw new IllegalStateException("댓글 생성 실패! 게시글의 id가 잘못되었습니다.");
+        return null;
+    }
+
+    public void patch(CommentForm commentForm) {
+        // 예외 발생
+        if(this.id != commentForm.getId())
+            throw new IllegalStateException("댓글 수정 실패! 잘못된 id가 입력되었습니다.");
+        // 객체 갱신
+        if(commentForm.getMemberId() != null)
+            this.memberId = commentForm.getMemberId();
+        if(commentForm.getContent() != null)
+            this.content = commentForm.getContent();
     }
 }
