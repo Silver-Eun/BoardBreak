@@ -18,7 +18,7 @@ public class CommentApiController {
     @GetMapping("/api/board/{boardId}/comments")
     public ResponseEntity<List<CommentForm>> commentList(@PathVariable Long boardId) {
         // 서비스에게 위임
-        List<CommentForm> comment = commentService.Comments(boardId);
+        List<CommentForm> comment = commentService.comments(boardId);
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(comment);
     }

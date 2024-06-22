@@ -9,15 +9,15 @@ import lombok.ToString;
 @ToString // toString 대체
 @Data // getter, setter, ToString 대체
 public class CommentForm {
-    private Long id;
+    private Long commentId;
     private Long boardId;
     private String memberId;
     private String content;
 
     public static CommentForm createCommentDto(Comment comment) {
         return new CommentForm(
-                comment.getId(),
-                comment.getBoard().getId(),
+                comment.getCommentId(),
+                comment.getBoardId(),
                 comment.getMemberId(),
                 comment.getContent()
         );

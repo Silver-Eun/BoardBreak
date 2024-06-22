@@ -1,9 +1,11 @@
 package io.cloudtype.Demo.controller;
 
 import io.cloudtype.Demo.dto.BoardForm;
+import io.cloudtype.Demo.dto.CommentForm;
 import io.cloudtype.Demo.entity.Board;
 import io.cloudtype.Demo.repository.BoardRepository;
 import io.cloudtype.Demo.service.BoardService;
+import io.cloudtype.Demo.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -35,6 +38,9 @@ public class BoardController {
 
         this.boardService = boardService;
     }
+
+    @Autowired
+    private CommentService commentService;
 
     // 게시글 쓰기
     @GetMapping("/board/new")
@@ -69,8 +75,9 @@ public class BoardController {
     // 게시글 상세보기
     @GetMapping("/board/{id}")
     public String detailBoard(@PathVariable Long id, Model model) {
+        List<CommentForm> commentList = commentService.comments(id);
         model.addAttribute("board", boardService.selectOne(id));
-
+        model.addAttribute("comment", commentList);
         return "boardDetail";
     }
 

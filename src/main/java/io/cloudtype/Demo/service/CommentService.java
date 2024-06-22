@@ -21,7 +21,7 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public List<CommentForm> Comments(Long boardId) {
+    public List<CommentForm> comments(Long boardId) {
 //        // 댓글 목록 조회
 //        List<Comment> commentlist =  commentRepository.findByBoardId(boardId);
 //        // Entity -> DTO 변환

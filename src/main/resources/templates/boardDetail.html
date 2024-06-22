@@ -34,23 +34,83 @@
     </span>
     <button><a th:href="@{/}">글목록</a></button>
 </div>
+
+<div id="comments-list">
+    <div th:each="commentDto : ${comment}" class="card m-2" th:id="'comments-' + ${commentDto.commentId}">
+        <div class="card-header">
+            <span th:text="${commentDto.memberId}"></span>
+            <!-- 모달 트리거 버튼 -->
+            <button type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#comment-edit-modal"
+                    th:attr="data-bs-id=${commentDto.commentId},
+                             data-bs-nickname=${commentDto.memberId},
+                             data-bs-body=${commentDto.content},
+                             data-bs-article-id=${commentDto.boardId}">댓글 수정
+            </button>
+            <!-- 댓글 삭제 버튼 -->
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger comment-delete-btn"
+                    th:attr="data-comment-id=${commentDto.commentId}">삭제
+            </button>
+        </div>
+        <div class="card-body">
+            <span th:text="${commentDto.content}"></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="commentContainer">
     <form>
         <div class="col commentInputAuthor">
             <span>[[${session.loginID} ? ${session.loginID} : 익명]]</span>
         </div>
-        <input type="hidden" th:value="${board.id}">
+        <input id="new-comment-board-id" th:value="${board.id}">
         <div class="commentInputArea">
             <label class="form-label" for="postContent"></label>
             <textarea class="form-control" rows="4" name="content" id="postContent"></textarea>
         </div>
         <div class="commentInputBtn">
-            <button type="button">댓글 등록</button>
+            <button type="button" id="comment-create-btn">댓글 등록</button>
         </div>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script>
+    {
+        // id가 comment-create-btn인 대상을 변수화
+        const commentCreateBtn = document.querySelector("#comment-create-btn");
+
+        // 버튼 클릭 이벤트 감지
+        commentCreateBtn.addEventListener("click", function () {
+            // 새 댓글 객체 생성
+            const comment = {
+                nickname: '[[${session.loginID}]]' ? '[[${session.loginID}]]' : '익명',
+                body: document.querySelector("#postContent").value,
+                article_id: document.querySelector("#new-comment-board-id").value
+            }
+
+            // fetch() - Talend API 요청을 Javascript로 보내줌
+            const url = "/api/board/" + comment.article_id + "/comments"
+            fetch(url, {
+                method: "post",                // POST 요청
+                body: JSON.stringify(comment), // comment JS 객체를 JSON으로 변경
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                // https 응답 코드에 따른 메세지 출력
+                const msg = (response.ok) ? "댓글이 등록되었습니다" : "댓글 등록 실패";
+                alert(msg);
+                // 페이지 새로고침
+                window.location.reload();
+            })
+        });
+    }
+</script>
 </body>
 </html>
