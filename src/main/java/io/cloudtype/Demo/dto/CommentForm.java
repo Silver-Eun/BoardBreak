@@ -1,5 +1,6 @@
 package io.cloudtype.Demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.cloudtype.Demo.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import lombok.ToString;
 @Data // getter, setter, ToString 대체
 public class CommentForm {
     private Long commentId;
+    @JsonProperty("article_id")
     private Long boardId;
     private String memberId;
     private String content;
@@ -17,7 +19,7 @@ public class CommentForm {
     public static CommentForm createCommentDto(Comment comment) {
         return new CommentForm(
                 comment.getCommentId(),
-                comment.getBoardId(),
+                comment.getBoard().getId(),
                 comment.getMemberId(),
                 comment.getContent()
         );

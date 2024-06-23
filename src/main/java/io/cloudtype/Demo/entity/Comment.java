@@ -19,10 +19,10 @@ public class Comment {
     // MySQL은 (strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
-//    @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Board에 연관
-//    @JoinColumn(name = "boardId")
-    @Column
-    private Long boardId;
+
+    @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Board에 연관
+    @JoinColumn(name = "board_id")
+    private Board board;
     @Column
     private String memberId;
     @Column
@@ -48,7 +48,14 @@ public class Comment {
             throw new IllegalStateException("댓글 생성 실패! 댓글의 id가 있어야 합니다.");
         if(commentForm.getBoardId() != board.getId())
             throw new IllegalStateException("댓글 생성 실패! 게시글의 id가 잘못되었습니다.");
-        return null;
+        // 엔티티 생성 및 반환
+        return new Comment(
+                null,
+                board,
+                commentForm.getMemberId(),
+                commentForm.getContent(),
+                new Date()
+        );
     }
 
     public void patch(CommentForm commentForm) {

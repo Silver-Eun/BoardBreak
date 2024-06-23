@@ -35,8 +35,8 @@
     <button><a th:href="@{/}">글목록</a></button>
 </div>
 
-<div id="comments-list">
-    <div th:each="commentDto : ${comment}" class="card m-2" th:id="'comments-' + ${commentDto.commentId}">
+<div id="comments-list" class="commentListContainer">
+    <div th:each="commentDto : ${comment}" class="card" th:id="'comments-' + ${commentDto.commentId}">
         <div class="card-header">
             <span th:text="${commentDto.memberId}"></span>
             <!-- 모달 트리거 버튼 -->
@@ -67,7 +67,7 @@
         <div class="col commentInputAuthor">
             <span>[[${session.loginID} ? ${session.loginID} : 익명]]</span>
         </div>
-        <input id="new-comment-board-id" th:value="${board.id}">
+        <input type="hidden" id="new-comment-board-id" th:value="${board.id}">
         <div class="commentInputArea">
             <label class="form-label" for="postContent"></label>
             <textarea class="form-control" rows="4" name="content" id="postContent"></textarea>
@@ -89,13 +89,15 @@
         commentCreateBtn.addEventListener("click", function () {
             // 새 댓글 객체 생성
             const comment = {
-                nickname: '[[${session.loginID}]]' ? '[[${session.loginID}]]' : '익명',
-                body: document.querySelector("#postContent").value,
-                article_id: document.querySelector("#new-comment-board-id").value
+                memberId: '[[${session.loginID}]]' ? '[[${session.loginID}]]' : '익명',
+                content: document.querySelector("#postContent").value,
+                boardId: document.querySelector("#new-comment-board-id").value
             }
 
+            console.log(comment);
+
             // fetch() - Talend API 요청을 Javascript로 보내줌
-            const url = "/api/board/" + comment.article_id + "/comments"
+            const url = "/api/board/" + comment.boardId + "/comments"
             fetch(url, {
                 method: "post",                // POST 요청
                 body: JSON.stringify(comment), // comment JS 객체를 JSON으로 변경
@@ -108,6 +110,91 @@
                 alert(msg);
                 // 페이지 새로고침
                 window.location.reload();
+            })
+        });
+    }
+</script>
+<!-- 모달 스크립트 처리 -->
+<script>
+    {
+        // 모달 요소 선택
+        const commentEditModal = document.querySelector("#comment-edit-modal");
+
+        // 모달 이벤트 감지
+        commentEditModal.addEventListener("show.bs.modal", function (event) {
+            // 트리거 버튼 선택
+            const triggerBtn = event.relatedTarget;
+            // 데이터 가져오기
+            const id = triggerBtn.getAttribute("data-bs-id");
+            const nickname = triggerBtn.getAttribute("data-bs-nickname");
+            const body = triggerBtn.getAttribute("data-bs-body");
+            const articleId = triggerBtn.getAttribute("data-bs-article-id");
+            // 데이터 반영
+            document.querySelector("#edit-comment-id").value = id;
+            document.querySelector("#edit-comment-nickname").value = nickname;
+            document.querySelector("#edit-comment-body").value = body;
+            document.querySelector("#edit-comment-article-id").value = articleId;
+        })
+    }
+    {
+        // 수정 완료 버튼
+        const commnetUpdateBtn = document.querySelector("#comment-update-btn")
+        // 클릭 이벤트 감지 및 처리
+        commnetUpdateBtn.addEventListener("click", function() {
+            // 수정 댓글 객체 생성
+            const comment = {
+                id : document.querySelector("#edit-comment-id").value,
+                nickname: document.querySelector("#edit-comment-nickname").value,
+                body : document.querySelector("#edit-comment-body").value,
+                article_id: document.querySelector("#edit-comment-article-id").value
+            }
+            // 수정 REST API 생성 - fetch()
+            const url = "/api/comments/" + comment.id;
+            fetch(url,{
+                method : "PATCH",
+                body : JSON.stringify(comment), // 수정된 댓글 객체를 JSON으로 전달
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            }).then(response => {
+                // https 응답 코드에 따른 메세지 출력
+                const msg = (response.ok) ? "댓글이 수정되었습니다" : "댓글 수정 실패";
+                alert(msg);
+                // 페이지 새로고침
+                window.location.reload();
+            })
+        })
+    }
+</script>
+
+<!-- 댓글 삭제 -->
+<script>
+    {
+        // 삭제 버튼 선택
+        const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+
+        // 삭제 버튼 이벤트 처리
+        commentDeleteBtns.forEach(btn => {
+            btn.addEventListener("click", (event) => {
+                // 이벤트 발생 요소를 선택
+                const commentDeleteBtn = event.srcElement;
+                // 삭제 댓글 id 가져오기
+                const commentId = commentDeleteBtn.getAttribute("data-comment-id");
+                // 삭제 API 호출 및 처리
+                const url = `/api/comments/${commentId}`; // 백틱
+                fetch(url, {
+                    method : "DELETE"
+                }).then(response =>{
+                    // 댓글 삭제 실패 처리
+                    if(!response.ok) {
+                        alert("댓글 삭제 실패");
+                        return;
+                    }
+
+                    // 삭제 성공 시, 댓글을 화면에서 지움
+                    const target = document.querySelector(`#comments-${commentId}`);
+                    target.remove();
+                })
             })
         });
     }
