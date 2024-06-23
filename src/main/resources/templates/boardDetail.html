@@ -50,10 +50,14 @@
                              data-bs-article-id=${commentDto.boardId}">댓글 수정
             </button>
             <!-- 댓글 삭제 버튼 -->
-            <button type="button"
-                    class="btn btn-sm btn-outline-danger comment-delete-btn"
-                    th:attr="data-comment-id=${commentDto.commentId}">삭제
-            </button>
+            <span th:if="${session.loginID == commentDto.commentId or session.loginID == 'admin'
+                            or (session.loginID == null and commentDto.commentId == '익명')}">
+                <button type="button"
+                        class="btn btn-sm btn-outline-danger comment-delete-btn"
+                        th:attr="data-comment-id=${commentDto.commentId}">삭제
+                </button>
+            </span>
+
         </div>
         <div class="card-body">
             <span th:text="${commentDto.content}"></span>
@@ -61,6 +65,36 @@
     </div>
 </div>
 
+<!-- 댓글 수정 Modal -->
+<div class="modal fade" id="comment-edit-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">댓글 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 댓글 수정 폼 -->
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">닉네임</label>
+                        <input class="form-control form-control-sm" id="edit-comment-nickname" readonly/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">댓글 내용</label>
+                        <textarea class="form-control form-control-sm" rows="3" id="edit-comment-body"></textarea>
+                    </div>
+
+                    <!-- 히든 input -->
+                    <input type="hidden" id="edit-comment-id">
+                    <input type="hidden" id="edit-comment-article-id">
+
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="comment-update-btn">수정 완료</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="commentContainer">
     <form>
@@ -143,13 +177,13 @@
         commnetUpdateBtn.addEventListener("click", function() {
             // 수정 댓글 객체 생성
             const comment = {
-                id : document.querySelector("#edit-comment-id").value,
-                nickname: document.querySelector("#edit-comment-nickname").value,
-                body : document.querySelector("#edit-comment-body").value,
-                article_id: document.querySelector("#edit-comment-article-id").value
+                commentId : document.querySelector("#edit-comment-id").value,
+                memberId: document.querySelector("#edit-comment-nickname").value,
+                content : document.querySelector("#edit-comment-body").value,
+                boardId: document.querySelector("#edit-comment-article-id").value
             }
             // 수정 REST API 생성 - fetch()
-            const url = "/api/comments/" + comment.id;
+            const url = "/api/comments/" + comment.commentId;
             fetch(url,{
                 method : "PATCH",
                 body : JSON.stringify(comment), // 수정된 댓글 객체를 JSON으로 전달
