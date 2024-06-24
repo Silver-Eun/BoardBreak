@@ -28,6 +28,12 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
 	runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	// 스프링 시큐리티를 사용하기 위한 스타터 추가
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// 타임리프에서 스프링 시큐리티를 사용하기 위한 의존성 추가
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	// 스프링 시큐리티를 테스트하기 위한 의존성 추가
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

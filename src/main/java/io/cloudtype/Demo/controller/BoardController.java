@@ -39,14 +39,19 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @Autowired
     private CommentService commentService;
+
+    @Autowired
+    public void setCommentService(CommentService commentService){
+
+        this.commentService = commentService;
+    }
 
     // 게시글 쓰기
     @GetMapping("/board/new")
     public String newBoardForm(HttpSession session, HttpServletResponse response) throws IOException {
         // 로그인해야 게시글 작성 가능
-        if(session == null) {
+        if(session.getAttribute("loginID") == null) {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println("<script> alert('로그인해주세요.');");

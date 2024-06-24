@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,25 +60,32 @@ public class MemberController {
     }
 
     @PostMapping(value = "/login/new")
-    public String login(HttpSession session, Member member, HttpServletResponse response) throws IOException {
-        // ** 로그인 Service 처리
-        // 1. 요청분석
-        String password = member.getPassword();
+    public String login(HttpSession session, @RequestParam String id,
+                        @RequestParam String password, Member member,
+                        HttpServletResponse response) throws IOException {
 
-        // 2. 서비스 처리
         member = memberService.selectOne(member.getId());
 
         if (member != null) {
-            session.setAttribute("loginID", member.getId());
-            session.setAttribute("loginName", member.getName());
-        } else {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script> alert('아이디 또는 비밀번호가 틀립니다.');");
-            out.println("history.go(-1); </script>");
-            out.close();
+            String dbPassword = member.getPassword();
+            String dbId = member.getId();
+
+            if (password.equals(dbPassword) && id.equals(dbId)) {
+                session.setAttribute("loginID", member.getId());
+                session.setAttribute("loginName", member.getName());
+                return "redirect:/";
+            }
         }
-        return "redirect:/";
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>");
+        out.println("alert('아이디 또는 비밀번호가 틀립니다.');");
+        out.println("history.go(-1);");
+        out.println("</script>");
+        out.close();
+
+        return null;
     }
 
     // 로그아웃
