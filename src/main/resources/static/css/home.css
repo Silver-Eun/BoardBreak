@@ -154,3 +154,7 @@ div a, button a, td a {
     white-space: pre-wrap; /* 자동 줄바꿈 설정 */
     overflow-wrap: break-word; /* 단어가 너무 길 때 줄바꿈 */
 }
+
+.dropdown-toggle::after {
+    display:none !important;
+}
