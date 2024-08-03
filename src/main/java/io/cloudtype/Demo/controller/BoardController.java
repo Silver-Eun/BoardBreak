@@ -73,7 +73,8 @@ public class BoardController {
     // 게시글 삭제하기
     @GetMapping("/board/delete/{id}")
     public String deleteBoard(@PathVariable Long id) {
-        boardRepository.deleteById(id);
+//        boardRepository.deleteById(id);
+        boardService.deleteBoardWithComments(id);
         return "redirect:/";
     }
 

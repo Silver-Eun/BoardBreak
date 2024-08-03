@@ -16,4 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     // 특정 사용자의 모든 댓글 조회
     List<Comment> findByNickname(String nickname);
+
+    // 게시글 삭제시 댓글도 같이 삭제
+    void deleteByBoardId(Long boardId);
 }
