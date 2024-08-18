@@ -8,11 +8,16 @@ import io.cloudtype.Demo.service.BoardService;
 import io.cloudtype.Demo.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -110,5 +115,22 @@ public class BoardController {
 
         model.addAttribute("apple", form);
         return "redirect:/board/" + id;
+    }
+
+    @GetMapping("/board/list")
+    public String listBoards(@RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "10") Integer size,
+                             Model model) {
+        if (size == null) {
+            size = 10;
+        }
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        model.addAttribute("boardPage", boardPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", boardPage.getTotalPages());
+        model.addAttribute("size", size);
+        return "index";
     }
 }

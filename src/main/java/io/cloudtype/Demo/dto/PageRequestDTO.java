@@ -12,20 +12,15 @@ import org.springframework.data.domain.Sort;
 @Data
 // 화면에서 전달되면 page, size라는 파라미터를 수집하는 클래스
 public class PageRequestDTO {
-    // 페이지
-    private int page;
-    // 1페이지당 글 개수
-    private int size;
+    private int page; // 페이지 번호
+    private int size; // 페이지당 글 개수
 
     public PageRequestDTO() {
-        // 초기엔 1페이지
-        this.page = 1;
-        // 1페이지당 글 10개
-        this.size = 10;
+        this.page = 1; // 기본 페이지 번호
+        this.size = 10; // 기본 페이지당 글 개수
     }
 
     public Pageable getPageable(Sort sort) {
-        // JPA는 페이지가 0부터 시작해서 page -1을 해줌
-        return PageRequest.of(page -1, size, sort);
+        return PageRequest.of(page - 1, size, sort);
     }
 }

@@ -37,24 +37,44 @@
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <!--            <th th:if="${session.loginID == 'admin'}">관리</th>-->
+            <th th:if="${session.loginID == 'admin'}">관리</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="board : ${boards}">
+        <tr th:each="board : ${result.dtoList}">
             <td>
                 <a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
             </td>
             <td th:text="${board.author}"></td>
-            <td th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm')}"></td>
-            <!--            <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">-->
-            <!--                <button>-->
-            <!--                    <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>-->
-            <!--                </button>-->
-            <!--            </td>-->
+            <td th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:if="${session.loginID == 'admin' or session.loginID == board.author}">
+                <button>
+                    <a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a>
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
+</div>
+<div class="paginationContainer">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${result.page == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${result.page - 1}, size=${result.size})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(1, result.totalPage)}"
+                class="page-item" th:classappend="${i == result.page} ? 'active'">
+                <a class="page-link" th:href="@{/board/list(page=${i}, size=${result.size})}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:classappend="${result.page == result.totalPage} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${result.page + 1}, size=${result.size})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 <div class="SearchContainer">
     <div class="firstButton"></div>

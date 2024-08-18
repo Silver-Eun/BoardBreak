@@ -1,5 +1,9 @@
 package io.cloudtype.Demo.controller;
 
+import io.cloudtype.Demo.dto.BoardForm;
+import io.cloudtype.Demo.dto.PageRequestDTO;
+import io.cloudtype.Demo.dto.PageResultDTO;
+import io.cloudtype.Demo.entity.Board;
 import io.cloudtype.Demo.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +21,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String getAllPost(Model model) {
-        model.addAttribute("boards", boardService.findAll());
+    public String getAllPost(PageRequestDTO pageRequestDTO, Model model) {
+//        model.addAttribute("boards", boardService.findAll());
+        // 페이지네이션된 게시글 목록 가져오기
+        PageResultDTO<BoardForm, Board> result = boardService.getList(pageRequestDTO);
+        model.addAttribute("result", result);
         return "index";
     }
 
