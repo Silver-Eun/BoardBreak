@@ -100,14 +100,29 @@
 
             boards.forEach(board => {
                 const tr = document.createElement('tr');
+
+                // Date 객체를 한국 시간으로 포맷
+                const createdAt = new Date(board.createdAt);
+                const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false, // 24시간 형식 사용
+                    timeZone: 'Asia/Seoul' // 한국 시간대 설정
+                };
+                const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(createdAt);
+
                 tr.innerHTML = `
             <td><a href="/board/${board.id}">${board.title}</a></td>
-            <td>${board.author}</td>
-            <td>${new Date(board.createdAt).toLocaleString()}</td>
-            `;
+            <td><a href="/board/${board.id}">${board.author}</a></td>
+            <td><a href="/board/${board.id}">${formattedDate}</a></td>
+        `;
                 tbody.appendChild(tr);
             });
         }
+
         // ${(sessionLoginID === 'admin' || sessionLoginID === board.author) ? `
         //                 <td>
         //                     <button><a href="/board/delete/${board.id}">삭제</a></button>
