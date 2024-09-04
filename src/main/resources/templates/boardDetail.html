@@ -27,7 +27,7 @@
         <h2 th:text="${board.title}"></h2>
         <p>
             <span th:text="${board.author}"></span>
-            <span th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+            <span th:text="${createdAt}"></span>
         </p>
     </div>
     <div class="detailContent" th:utext="${board.content}"></div>

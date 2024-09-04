@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -86,9 +89,29 @@ public class BoardController {
     // 게시글 상세보기
     @GetMapping("/board/{id}")
     public String detailBoard(@PathVariable Long id, Model model) {
+// 데이터 가져오기
+        Board board = boardService.selectOne(id);
         List<CommentForm> commentList = commentService.comments(id);
-        model.addAttribute("board", boardService.selectOne(id));
+
+        // Date를 LocalDateTime으로 변환
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(board.getCreatedAt().toInstant(), ZoneId.systemDefault());
+
+        // 한국 시간대로 변환
+        LocalDateTime seoulDateTime = localDateTime.atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneId.of("Asia/Seoul"))
+                .toLocalDateTime();
+
+        // 문자열로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String seoulDateTimeString = seoulDateTime.format(formatter);
+
+        // 모델에 데이터 추가
+        model.addAttribute("board", board);
         model.addAttribute("comment", commentList);
+
+        // 변환된 날짜를 추가
+        model.addAttribute("createdAt", seoulDateTimeString);
+
         return "boardDetail";
     }
 
