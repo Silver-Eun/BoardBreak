@@ -61,9 +61,9 @@
 
 <div class="SearchContainer">
     <div class="firstButton"></div>
-    <form class="secondButton">
+    <form class="secondButton" onsubmit="searchBoards(event)">
         <label>
-            <input type="search" placeholder="Search" style="width: 150px">
+            <input type="search" id="searchKeyword" placeholder="제목 검색" style="width: 150px" required>
             <button type="submit">검색</button>
         </label>
     </form>
@@ -83,80 +83,86 @@
                 loadPage(page);
             }
         });
+    });
 
-        function loadPage(page) {
-            fetch(`/api/board/list?page=${page}&size=10`)
-                .then(response => response.json())
-                .then(data => {
-                    updateBoardTable(data.dtoList);
-                    updatePagination(data.page, data.totalPage, data.size);
-                })
-                .catch(error => console.error('Error:', error));
-        }
+    function loadPage(page) {
+        fetch(`/api/board/list?page=${page}&size=10`)
+            .then(response => response.json())
+            .then(data => {
+                updateBoardTable(data.dtoList);
+                updatePagination(data.page, data.totalPage, data.size);
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
-        function updateBoardTable(boards) {
-            const tbody = document.querySelector('.boardTable tbody');
-            tbody.innerHTML = '';  // 기존 내용 제거
+    function searchBoards(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+        const keyword = document.getElementById('searchKeyword').value; // 검색어 가져오기
+        fetch(`/api/board/search?keyword=${encodeURIComponent(keyword)}&page=1&size=10`)
+            .then(response => response.json())
+            .then(data => {
+                updateBoardTable(data.content); // 여기에 data.content로 바꾸어야 함
+                updatePagination(data.page, data.totalPages, data.size);
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
-            boards.forEach(board => {
-                const tr = document.createElement('tr');
+    function updateBoardTable(boards) {
+        const tbody = document.querySelector('.boardTable tbody');
+        tbody.innerHTML = '';  // 기존 내용 제거
 
-                // Date 객체를 한국 시간으로 포맷
-                const createdAt = new Date(board.createdAt);
-                const options = {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false, // 24시간 형식 사용
-                    timeZone: 'Asia/Seoul' // 한국 시간대 설정
-                };
-                const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(createdAt);
+        boards.forEach(board => {
+            const tr = document.createElement('tr');
 
-                tr.innerHTML = `
-            <td><a href="/board/${board.id}">${board.title}</a></td>
-            <td><a href="/board/${board.id}">${board.author}</a></td>
-            <td><a href="/board/${board.id}">${formattedDate}</a></td>
-        `;
-                tbody.appendChild(tr);
-            });
-        }
+            // Date 객체를 한국 시간으로 포맷
+            const createdAt = new Date(board.createdAt);
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false, // 24시간 형식 사용
+                timeZone: 'Asia/Seoul' // 한국 시간대 설정
+            };
+            const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(createdAt);
 
-        // ${(sessionLoginID === 'admin' || sessionLoginID === board.author) ? `
-        //                 <td>
-        //                     <button><a href="/board/delete/${board.id}">삭제</a></button>
-        // </td>
-        //     ` : '<td></td>'}
+            tr.innerHTML = `
+                <td><a href="/board/${board.id}">${board.title}</a></td>
+                <td><a href="/board/${board.id}">${board.author}</a></td>
+                <td><a href="/board/${board.id}">${formattedDate}</a></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 
-        function updatePagination(currentPage, totalPages, size) {
-            const pagination = document.querySelector('.pagination');
-            pagination.innerHTML = '';  // 기존 페이지네이션 제거
+    function updatePagination(currentPage, totalPages, size) {
+        const pagination = document.querySelector('.pagination');
+        pagination.innerHTML = '';  // 기존 페이지네이션 제거
 
-            // 이전 페이지 버튼
-            pagination.innerHTML += `
+        // 이전 페이지 버튼
+        pagination.innerHTML += `
             <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                 <a class="page-link" href="#" data-page="${currentPage - 1}">&laquo;</a>
             </li>
         `;
 
-            // 페이지 번호
-            for (let i = 1; i <= totalPages; i++) {
-                pagination.innerHTML += `
+        // 페이지 번호
+        for (let i = 1; i <= totalPages; i++) {
+            pagination.innerHTML += `
                 <li class="page-item ${i == currentPage ? 'active' : ''}">
                     <a class="page-link" href="#" data-page="${i}">${i}</a>
                 </li>
             `;
-            }
+        }
 
-            // 다음 페이지 버튼
-            pagination.innerHTML += `
+        // 다음 페이지 버튼
+        pagination.innerHTML += `
             <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
                 <a class="page-link" href="#" data-page="${currentPage + 1}">&raquo;</a>
             </li>
         `;
-        }
-    });
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -20,15 +20,17 @@ public class HomeController {
         this.boardService = boardService;
     }
 
+    // 메인페이지
     @GetMapping("/")
     public String getAllPost(PageRequestDTO pageRequestDTO, Model model) {
-//        model.addAttribute("boards", boardService.findAll());
+        // model.addAttribute("boards", boardService.findAll());
         // 페이지네이션된 게시글 목록 가져오기
         PageResultDTO<BoardForm, Board> result = boardService.getList(pageRequestDTO);
         model.addAttribute("result", result);
         return "index";
     }
 
+    // 검색
     @GetMapping("/search")
     public String search() {
 

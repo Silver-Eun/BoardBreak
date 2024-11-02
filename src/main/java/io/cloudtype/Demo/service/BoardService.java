@@ -18,29 +18,13 @@ import java.util.Optional;
 
 @Service
 public class BoardService {
-
     private BoardRepository boardRepository;
-    private CommentRepository commentRepository;
 
-    @Autowired
-    public void setBoardRepository(BoardRepository boardRepository,
-                                   CommentRepository commentRepository) {
-
-        this.boardRepository = boardRepository;
-        this.commentRepository = commentRepository;
-    }
-
-//    public List<Board> findAll() {
+    // 전체 게시글 불러오기
+//        public List<Board> findAll() {
 //
 //        return boardRepository.findAll();
 //    }
-
-    public Board selectOne(Long id) {
-        Optional<Board> board = boardRepository.findById(id);
-        if(board.isPresent()) return board.get();
-        else return null;
-    }
-
     public PageResultDTO<BoardForm, Board> getList(PageRequestDTO pageRequestDTO) {
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
@@ -58,6 +42,24 @@ public class BoardService {
         return new PageResultDTO<>(result, fn);
     }
 
+    private CommentRepository commentRepository;
+
+    @Autowired
+    public void setBoardRepository(BoardRepository boardRepository,
+                                   CommentRepository commentRepository) {
+
+        this.boardRepository = boardRepository;
+        this.commentRepository = commentRepository;
+    }
+
+    // 게시글 상세보기
+    public Board selectOne(Long id) {
+        Optional<Board> board = boardRepository.findById(id);
+        if(board.isPresent()) return board.get();
+        else return null;
+    }
+
+    // 댓글 / 게시글 삭제
     @Transactional
     public void deleteBoardWithComments(Long id) {
         // 댓글 삭제

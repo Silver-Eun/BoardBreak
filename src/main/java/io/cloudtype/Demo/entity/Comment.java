@@ -21,7 +21,7 @@ public class Comment {
     private Long commentId;
 
     @ManyToOne // 해당 댓글 엔티티 여러개가 하나의 Board에 연관
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "boardId")
     private Board board;
     @Column
     private String memberId;

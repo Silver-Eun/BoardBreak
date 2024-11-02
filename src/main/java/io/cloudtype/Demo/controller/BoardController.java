@@ -8,10 +8,9 @@ import io.cloudtype.Demo.service.BoardService;
 import io.cloudtype.Demo.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,19 +30,14 @@ import java.util.List;
 @Controller
 @Slf4j
 public class BoardController {
-    private BoardRepository boardRepository;
+
+    // 레포지토리 및 서비스 주입
+    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
     @Autowired
-    public void setBoardRepository(BoardRepository boardRepository) {
-
+    public BoardController(BoardRepository boardRepository, BoardService boardService) {
         this.boardRepository = boardRepository;
-    }
-
-    private BoardService boardService;
-
-    @Autowired
-    public void setBoardService(BoardService boardService) {
-
         this.boardService = boardService;
     }
 
@@ -89,7 +83,7 @@ public class BoardController {
     // 게시글 상세보기
     @GetMapping("/board/{id}")
     public String detailBoard(@PathVariable Long id, Model model) {
-// 데이터 가져오기
+        // 데이터 가져오기
         Board board = boardService.selectOne(id);
         List<CommentForm> commentList = commentService.comments(id);
 
@@ -140,20 +134,38 @@ public class BoardController {
         return "redirect:/board/" + id;
     }
 
-    @GetMapping("/board/list")
-    public String listBoards(@RequestParam(defaultValue = "1") int page,
-                             @RequestParam(defaultValue = "10") Integer size,
-                             Model model) {
-        if (size == null) {
-            size = 10;
-        }
+    // 게시글 검색
+    @GetMapping("/board/search")
+    public String searchBoards(
+            @RequestParam("keyword") String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model) {
+
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        // 페이지네이션과 키워드를 함께 사용하여 검색
+        Page<Board> boardPage = boardRepository.searchByKeyword(keyword, pageable);
 
         model.addAttribute("boardPage", boardPage.getContent());
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", boardPage.getTotalPages());
+        model.addAttribute("totalPage", boardPage.getTotalPages());
         model.addAttribute("size", size);
-        return "index";
+        model.addAttribute("keyword", keyword); // 검색 키워드 추가
+
+        return "index"; // 검색 결과를 보여줄 페이지
+    }
+
+    @GetMapping("/api/board/search")
+    public ResponseEntity<Page<Board>> searchBoardsApi(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        // 레포지토리의 메소드 호출
+        Page<Board> boardPage = boardRepository.searchByKeyword(keyword, pageable);
+
+        return ResponseEntity.ok(boardPage);
     }
 }
